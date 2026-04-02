@@ -1,0 +1,110 @@
+:root {
+  --text: #5d5666;
+  --text-h: #0f0b16;
+  --bg: #ffffff;
+  --border: rgba(15, 11, 22, 0.1);
+  --code-bg: rgba(15, 11, 22, 0.06);
+  --accent: #1e3a8a;
+  --accent-2: #1d4ed8;
+  --accent-bg: rgba(30, 58, 138, 0.12);
+  --accent-border: rgba(30, 58, 138, 0.35);
+  --soft: rgba(15, 11, 22, 0.04);
+  --shadow:
+    rgba(0, 0, 0, 0.1) 0 10px 24px -14px,
+    rgba(0, 0, 0, 0.06) 0 4px 10px -6px;
+
+  --sans: ui-sans-serif, system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: ui-sans-serif, system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color-scheme: light dark;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #b9b2c3;
+    --text-h: #f5f3f9;
+    --bg: #0f0b16;
+    --border: rgba(245, 243, 249, 0.12);
+    --code-bg: rgba(245, 243, 249, 0.08);
+    --accent: #3b82f6;
+    --accent-2: #1d4ed8;
+    --accent-bg: rgba(59, 130, 246, 0.2);
+    --accent-border: rgba(59, 130, 246, 0.4);
+    --soft: rgba(245, 243, 249, 0.06);
+    --shadow:
+      rgba(0, 0, 0, 0.55) 0 12px 26px -16px,
+      rgba(0, 0, 0, 0.35) 0 6px 14px -10px;
+  }
+}
+
+body {
+  margin: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(128, 128, 128, 0.08) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      0deg,
+      rgba(128, 128, 128, 0.08) 1px,
+      transparent 1px
+    ),
+    radial-gradient(
+      1200px 600px at 20% 0%,
+      rgba(30, 58, 138, 0.14),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 520px at 90% 10%,
+      rgba(29, 78, 216, 0.12),
+      transparent 55%
+    ),
+    var(--bg);
+  background-size:
+    26px 26px,
+    26px 26px,
+    auto,
+    auto,
+    auto;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--heading);
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+p {
+  margin: 0;
+}
+
+code {
+  font-family: var(--mono);
+  display: inline-flex;
+  border-radius: 6px;
+  color: var(--text-h);
+  font-size: 15px;
+  line-height: 135%;
+  padding: 4px 8px;
+  background: var(--code-bg);
+}
