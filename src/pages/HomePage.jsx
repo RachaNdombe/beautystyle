@@ -36,10 +36,39 @@ const heroVideoModules = {
   }),
 }
 
-const heroVideo =
-  heroVideoModules['../assets/VID-20260402-WA0012.mp4'] ??
-  heroVideoModules['../assets/img/VID-20260402-WA0012.mp4'] ??
-  Object.values(heroVideoModules)[0]
+/** Ordre d’affichage en bannière, puis toutes les autres vidéos du dossier. */
+const HERO_VIDEO_PRIORITY = [
+  'VID-20260402-WA0012.mp4',
+  'VID-20260402-WA0015.mp4',
+  'VID-20260402-WA0017.mp4',
+]
+
+function resolveHeroVideoUrl(fileName) {
+  return (
+    heroVideoModules[`../assets/${fileName}`] ??
+    heroVideoModules[`../assets/img/${fileName}`]
+  )
+}
+
+const seenUrls = new Set()
+const heroVideoPlaylist = []
+
+for (const name of HERO_VIDEO_PRIORITY) {
+  const url = resolveHeroVideoUrl(name)
+  if (url && !seenUrls.has(url)) {
+    seenUrls.add(url)
+    heroVideoPlaylist.push(url)
+  }
+}
+
+for (const [path, url] of Object.entries(heroVideoModules).sort(([a], [b]) =>
+  a.localeCompare(b),
+)) {
+  if (!seenUrls.has(url)) {
+    seenUrls.add(url)
+    heroVideoPlaylist.push(url)
+  }
+}
 
 function handleWhatsappSubmit(event) {
   event.preventDefault()
@@ -70,6 +99,10 @@ function handleWhatsappSubmit(event) {
 
 export function HomePage() {
   const [heroMediaOk, setHeroMediaOk] = useState(true)
+  const [heroVideoIndex, setHeroVideoIndex] = useState(0)
+  const heroVideo =
+    heroVideoPlaylist[heroVideoIndex % Math.max(heroVideoPlaylist.length, 1)] ??
+    null
 
   return (
     <>
@@ -103,14 +136,19 @@ export function HomePage() {
             {heroMediaOk ? (
               heroVideo ? (
                 <video
+                  key={heroVideo}
                   className="sb-heroVideo"
                   src={heroVideo}
                   poster={heroImg}
                   autoPlay
                   muted
-                  loop
                   playsInline
                   preload="metadata"
+                  onEnded={() => {
+                    if (heroVideoPlaylist.length > 1) {
+                      setHeroVideoIndex((i) => (i + 1) % heroVideoPlaylist.length)
+                    }
+                  }}
                   onError={() => setHeroMediaOk(false)}
                 />
               ) : (
