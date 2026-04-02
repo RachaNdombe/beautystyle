@@ -1,14 +1,21 @@
+import brandLogo from '../assets/logo-smith-beauty.png'
+
 const brand = {
   name: 'Smith Beauty',
   tagline: 'Formation maquillage • coiffure • extensions cils',
 }
 
-function Header() {
+function Header({ theme, onToggleTheme }) {
   return (
     <header className="sb-header" role="banner">
       <div className="sb-shell sb-header__inner">
         <div className="sb-brand">
-          <div className="sb-brand__name">{brand.name}</div>
+          <img
+            className="sb-brand__logo"
+            src={brandLogo}
+            alt="Logo Smith Beauty"
+            loading="eager"
+          />
           <div className="sb-brand__tagline">{brand.tagline}</div>
         </div>
 
@@ -25,6 +32,19 @@ function Header() {
           <a href="#contact" className="sb-nav__link">
             Contact
           </a>
+          <button
+            type="button"
+            className="sb-themeToggle"
+            onClick={onToggleTheme}
+            aria-label={
+              theme === 'dark'
+                ? 'Activer le mode clair'
+                : 'Activer le mode sombre'
+            }
+            title={theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
+          >
+            {theme === 'dark' ? '☀️ Clair' : '🌙 Sombre'}
+          </button>
         </nav>
       </div>
     </header>
@@ -53,10 +73,10 @@ function Footer() {
   )
 }
 
-export function Layout({ children }) {
+export function Layout({ children, theme, onToggleTheme }) {
   return (
     <div className="sb-app">
-      <Header />
+      <Header theme={theme} onToggleTheme={onToggleTheme} />
       <main className="sb-main">{children}</main>
       <Footer />
     </div>

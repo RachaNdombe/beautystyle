@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { ButtonLink, Card, Section } from '../components/UI.jsx'
 import heroImg from '../assets/IMG-20260402-WA0008.jpg'
 
+const whatsappNumber = '0827667227'
+
 const galleryModules = {
   ...import.meta.glob('../assets/*.{png,jpg,jpeg,JPG,JPEG,webp,WEBP}', {
     eager: true,
@@ -13,7 +15,15 @@ const galleryModules = {
   }),
 }
 
-const galleryImages = Object.values(galleryModules)
+const galleryImages = Object.entries(galleryModules)
+  .filter(([path]) => {
+    const normalizedPath = path.toLowerCase()
+    return (
+      !normalizedPath.includes('vite') &&
+      !normalizedPath.includes('logo-smith-beauty')
+    )
+  })
+  .map(([, src]) => src)
 
 const heroVideoModules = {
   ...import.meta.glob('../assets/*.{mp4,webm,mov,MP4,WEBM,MOV}', {
@@ -30,6 +40,33 @@ const heroVideo =
   heroVideoModules['../assets/VID-20260402-WA0012.mp4'] ??
   heroVideoModules['../assets/img/VID-20260402-WA0012.mp4'] ??
   Object.values(heroVideoModules)[0]
+
+function handleWhatsappSubmit(event) {
+  event.preventDefault()
+  const formData = new FormData(event.currentTarget)
+
+  const name = (formData.get('name') || '').toString().trim()
+  const phone = (formData.get('phone') || '').toString().trim()
+  const moduleValue = (formData.get('module') || '').toString()
+  const message = (formData.get('message') || '').toString().trim()
+
+  const moduleMap = {
+    makeup: 'Make-up',
+    coiffure: 'Coiffure',
+    cils: 'Extensions cils',
+  }
+
+  const whatsappMessage = [
+    'Bonjour Smith Beauty, je souhaite des informations.',
+    `Nom: ${name || '-'}`,
+    `Telephone: ${phone || '-'}`,
+    `Module: ${moduleMap[moduleValue] || moduleValue || '-'}`,
+    `Message: ${message || '-'}`,
+  ].join('\n')
+
+  const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`
+  window.open(url, '_blank', 'noopener,noreferrer')
+}
 
 export function HomePage() {
   const [heroMediaOk, setHeroMediaOk] = useState(true)
@@ -140,7 +177,7 @@ export function HomePage() {
             icon="✓"
           />
         </div>
-        <div className="sb-center">
+        <div className="sb-center sb-center--gapTop">
           <ButtonLink to="#contact">Réserver une place</ButtonLink>
         </div>
       </Section>
@@ -186,7 +223,7 @@ export function HomePage() {
         id="galerie"
         eyebrow="Galerie"
         title="Photos & vidéos"
-        lead="Les images sont chargées automatiquement depuis src/assets et src/assets/img."
+        
         variant="soft"
       >
         <div className="sb-gallery">
@@ -230,7 +267,7 @@ export function HomePage() {
             <div className="sb-contactList">
               <div className="sb-contactRow">
                 <div className="sb-contactRow__k">Téléphone</div>
-                <div className="sb-contactRow__v">+33 6 00 00 00 00</div>
+                <div className="sb-contactRow__v">0827667227</div>
               </div>
               <div className="sb-contactRow">
                 <div className="sb-contactRow__k">Email</div>
@@ -238,24 +275,21 @@ export function HomePage() {
               </div>
               <div className="sb-contactRow">
                 <div className="sb-contactRow__k">Ville</div>
-                <div className="sb-contactRow__v">Votre ville</div>
+                <div className="sb-contactRow__v">Kinshasa</div>
               </div>
               <div className="sb-contactRow">
                 <div className="sb-contactRow__k">Adresse</div>
-                <div className="sb-contactRow__v">Adresse à compléter</div>
+                <div className="sb-contactRow__v">Kinshasa, Ngaliame UpN</div>
               </div>
             </div>
             <div className="sb-note">
-              Tu peux remplacer ces infos par WhatsApp / Instagram / Facebook si tu
-              préfères.
+              
             </div>
           </div>
 
           <form
             className="sb-card sb-card--flat"
-            onSubmit={(e) => {
-              e.preventDefault()
-            }}
+            onSubmit={handleWhatsappSubmit}
           >
             <div className="sb-card__title">Demande d’informations</div>
             <div className="sb-form">
@@ -281,10 +315,10 @@ export function HomePage() {
               </label>
 
               <button className="sb-btn sb-btn--primary" type="submit">
-                Envoyer
+                Envoyer sur WhatsApp
               </button>
               <div className="sb-note">
-                (Formulaire vitrine — on peut le connecter à WhatsApp ou email ensuite.)
+                
               </div>
             </div>
           </form>

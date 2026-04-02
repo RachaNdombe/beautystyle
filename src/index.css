@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
 :root {
   --text: #5d5666;
   --text-h: #0f0b16;
@@ -13,13 +15,17 @@
     rgba(0, 0, 0, 0.1) 0 10px 24px -14px,
     rgba(0, 0, 0, 0.06) 0 4px 10px -6px;
 
-  --sans: ui-sans-serif, system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: ui-sans-serif, system-ui, 'Segoe UI', Roboto, sans-serif;
+  --sans: 'Poppins', ui-sans-serif, system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading:
+    'Playfair Display',
+    Georgia,
+    'Times New Roman',
+    serif;
   --mono: ui-monospace, Consolas, monospace;
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
-  color-scheme: light dark;
+  color-scheme: light;
   color: var(--text);
   background: var(--bg);
   font-synthesis: none;
@@ -32,22 +38,21 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #b9b2c3;
-    --text-h: #f5f3f9;
-    --bg: #0f0b16;
-    --border: rgba(245, 243, 249, 0.12);
-    --code-bg: rgba(245, 243, 249, 0.08);
-    --accent: #3b82f6;
-    --accent-2: #1d4ed8;
-    --accent-bg: rgba(59, 130, 246, 0.2);
-    --accent-border: rgba(59, 130, 246, 0.4);
-    --soft: rgba(245, 243, 249, 0.06);
-    --shadow:
-      rgba(0, 0, 0, 0.55) 0 12px 26px -16px,
-      rgba(0, 0, 0, 0.35) 0 6px 14px -10px;
-  }
+:root[data-theme='dark'] {
+  --text: #b9b2c3;
+  --text-h: #f5f3f9;
+  --bg: #0f0b16;
+  --border: rgba(245, 243, 249, 0.12);
+  --code-bg: rgba(245, 243, 249, 0.08);
+  --accent: #3b82f6;
+  --accent-2: #1d4ed8;
+  --accent-bg: rgba(59, 130, 246, 0.2);
+  --accent-border: rgba(59, 130, 246, 0.4);
+  --soft: rgba(245, 243, 249, 0.06);
+  --shadow:
+    rgba(0, 0, 0, 0.55) 0 12px 26px -16px,
+    rgba(0, 0, 0, 0.35) 0 6px 14px -10px;
+  color-scheme: dark;
 }
 
 body {

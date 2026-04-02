@@ -1,11 +1,13 @@
 import { Section } from '../components/UI.jsx'
 
 const contact = {
-  phone: '+33 6 00 00 00 00',
+  phone: '0827667227',
   email: 'contact@smithbeauty.com',
   city: 'Votre ville',
   address: 'Adresse à compléter',
 }
+
+const whatsappNumber = '0827667227'
 
 function Field({ label, children }) {
   return (
@@ -14,6 +16,33 @@ function Field({ label, children }) {
       {children}
     </label>
   )
+}
+
+function handleWhatsappSubmit(event) {
+  event.preventDefault()
+  const formData = new FormData(event.currentTarget)
+
+  const name = (formData.get('name') || '').toString().trim()
+  const phone = (formData.get('phone') || '').toString().trim()
+  const moduleValue = (formData.get('module') || '').toString()
+  const message = (formData.get('message') || '').toString().trim()
+
+  const moduleMap = {
+    makeup: 'Make-up',
+    coiffure: 'Coiffure',
+    cils: 'Extensions cils',
+  }
+
+  const whatsappMessage = [
+    'Bonjour Smith Beauty, je souhaite des informations.',
+    `Nom: ${name || '-'}`,
+    `Telephone: ${phone || '-'}`,
+    `Module: ${moduleMap[moduleValue] || moduleValue || '-'}`,
+    `Message: ${message || '-'}`,
+  ].join('\n')
+
+  const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`
+  window.open(url, '_blank', 'noopener,noreferrer')
 }
 
 export function ContactPage() {
@@ -53,9 +82,7 @@ export function ContactPage() {
 
           <form
             className="sb-card sb-card--flat"
-            onSubmit={(e) => {
-              e.preventDefault()
-            }}
+            onSubmit={handleWhatsappSubmit}
           >
             <div className="sb-card__title">Demande d’informations</div>
             <div className="sb-form">
@@ -77,11 +104,11 @@ export function ContactPage() {
               </Field>
 
               <button className="sb-btn sb-btn--primary" type="submit">
-                Envoyer
+                Envoyer sur WhatsApp
               </button>
               <div className="sb-note">
-                (Formulaire “vitrine” pour l’instant — on peut le connecter à WhatsApp
-                ou email ensuite.)
+                En cliquant sur Envoyer, WhatsApp s'ouvre avec votre message prêt à
+                être envoyé.
               </div>
             </div>
           </form>
